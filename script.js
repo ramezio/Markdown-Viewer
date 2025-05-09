@@ -626,45 +626,50 @@ This is a fully client-side application. Your content never leaves your browser 
       const originalText = exportPdf.innerHTML;
       exportPdf.innerHTML = '<i class="bi bi-hourglass-split"></i> Generating...';
       exportPdf.disabled = true;
-      
-      // Create a clone of the preview for PDF generation
+
+      const progressContainer = document.createElement('div');
+      progressContainer.style.position = 'fixed';
+      progressContainer.style.top = '50%';
+      progressContainer.style.left = '50%';
+      progressContainer.style.transform = 'translate(-50%, -50%)';
+      progressContainer.style.padding = '15px 20px';
+      progressContainer.style.backgroundColor = 'rgba(0, 0, 0, 0.7)';
+      progressContainer.style.color = 'white';
+      progressContainer.style.borderRadius = '5px';
+      progressContainer.style.zIndex = '9999';
+      progressContainer.style.textAlign = 'center';
+
+      const statusText = document.createElement('div');
+      statusText.textContent = 'Generating PDF...';
+      progressContainer.appendChild(statusText);
+      document.body.appendChild(progressContainer);
+
       const markdown = markdownEditor.value;
       const html = marked.parse(markdown);
       const sanitizedHtml = DOMPurify.sanitize(html, {
-        ADD_TAGS: ['mjx-container', 'svg', 'path', 'g', 'marker', 'defs', 'pattern', 'clipPath'], 
+        ADD_TAGS: ['mjx-container', 'svg', 'path', 'g', 'marker', 'defs', 'pattern', 'clipPath'],
         ADD_ATTR: ['id', 'class', 'style', 'viewBox', 'd', 'fill', 'stroke', 'transform', 'marker-end', 'marker-start']
       });
-      
-      // Create the container with proper styling
+
       const tempElement = document.createElement("div");
       tempElement.className = "markdown-body pdf-export";
       tempElement.innerHTML = sanitizedHtml;
       tempElement.style.padding = "20px";
-      tempElement.style.width = "210mm"; // A4 width
-      tempElement.style.minHeight = "200px";
+      tempElement.style.width = "210mm";
       tempElement.style.margin = "0 auto";
       tempElement.style.fontSize = "14px";
-      
-      // Apply theme styling
-      const currentTheme = document.documentElement.getAttribute("data-theme");
-      if (currentTheme === "dark") {
-        tempElement.style.backgroundColor = "#0d1117";
-        tempElement.style.color = "#c9d1d9";
-      } else {
-        tempElement.style.backgroundColor = "#ffffff";
-        tempElement.style.color = "#24292e";
-      }
-      
-      // Add temporary element to the DOM but make it invisible
       tempElement.style.position = "fixed";
       tempElement.style.left = "-9999px";
       tempElement.style.top = "0";
+
+      const currentTheme = document.documentElement.getAttribute("data-theme");
+      tempElement.style.backgroundColor = currentTheme === "dark" ? "#0d1117" : "#ffffff";
+      tempElement.style.color = currentTheme === "dark" ? "#c9d1d9" : "#24292e";
+
       document.body.appendChild(tempElement);
-      
-      // Allow time for MathJax to render
+
       await new Promise(resolve => setTimeout(resolve, 200));
-      
-      // Render any mermaid diagrams in the clone
+
       try {
         await mermaid.run({
           nodes: tempElement.querySelectorAll('.mermaid'),
@@ -673,8 +678,7 @@ This is a fully client-side application. Your content never leaves your browser 
       } catch (mermaidError) {
         console.warn("Mermaid rendering issue:", mermaidError);
       }
-      
-      // Process MathJax if available
+
       if (window.MathJax) {
         try {
           await MathJax.typesetPromise([tempElement]);
@@ -682,11 +686,9 @@ This is a fully client-side application. Your content never leaves your browser 
           console.warn("MathJax rendering issue:", mathJaxError);
         }
       }
-      
-      // Wait a bit more for all rendering to complete
+
       await new Promise(resolve => setTimeout(resolve, 500));
-      
-      // Set up jsPDF
+
       const pdfOptions = {
         orientation: 'portrait',
         unit: 'mm',
@@ -694,82 +696,65 @@ This is a fully client-side application. Your content never leaves your browser 
         compress: true,
         hotfixes: ["px_scaling"]
       };
-      
+
       const pdf = new jspdf.jsPDF(pdfOptions);
-      
-      // Define page dimensions and margins
       const pageWidth = pdf.internal.pageSize.getWidth();
       const pageHeight = pdf.internal.pageSize.getHeight();
-      const margin = 15; // mm
+      const margin = 15;
       const contentWidth = pageWidth - (margin * 2);
-      
-      // Use html2canvas to capture the rendered content
-      const canvasOptions = {
-        scale: 2, // Higher scale for better quality
+
+      const canvas = await html2canvas(tempElement, {
+        scale: 2,
         useCORS: true,
         allowTaint: true,
         logging: false,
-        windowWidth: 1000, // Consistent width for rendering
+        windowWidth: 1000,
         windowHeight: tempElement.scrollHeight
-      };
-      
-      const canvas = await html2canvas(tempElement, canvasOptions);
-      
-      // Calculate scaling to fit content within margins
-      const imgWidth = contentWidth;
-      const scaleFactor = canvas.width / imgWidth;
+      });
+
+      const scaleFactor = canvas.width / contentWidth;
       const imgHeight = canvas.height / scaleFactor;
-      
-      // Calculate how many pages we'll need
       const pagesCount = Math.ceil(imgHeight / (pageHeight - margin * 2));
-      
-      // For each page, we'll clip the appropriate portion of the canvas
+
       for (let page = 0; page < pagesCount; page++) {
-        if (page > 0) {
-          pdf.addPage();
-        }
-        
-        // Calculate which part of the canvas to use for this page
+        if (page > 0) pdf.addPage();
+
         const sourceY = page * (pageHeight - margin * 2) * scaleFactor;
-        const sourceHeight = Math.min(
-          canvas.height - sourceY, 
-          (pageHeight - margin * 2) * scaleFactor
-        );
-        
-        // Calculate height on the PDF page
+        const sourceHeight = Math.min(canvas.height - sourceY, (pageHeight - margin * 2) * scaleFactor);
         const destHeight = sourceHeight / scaleFactor;
-        
-        // Create a temporary canvas for this page slice
+
         const pageCanvas = document.createElement('canvas');
         pageCanvas.width = canvas.width;
         pageCanvas.height = sourceHeight;
-        
-        // Copy the relevant portion to our page canvas
+
         const ctx = pageCanvas.getContext('2d');
-        ctx.drawImage(
-          canvas, 
-          0, sourceY, canvas.width, sourceHeight,
-          0, 0, pageCanvas.width, pageCanvas.height
-        );
-        
-        // Add this slice to the PDF
+        ctx.drawImage(canvas, 0, sourceY, canvas.width, sourceHeight, 0, 0, canvas.width, sourceHeight);
+
         const imgData = pageCanvas.toDataURL('image/png');
-        pdf.addImage(imgData, 'PNG', margin, margin, imgWidth, destHeight);
+        pdf.addImage(imgData, 'PNG', margin, margin, contentWidth, destHeight);
       }
-      
-      // Save the PDF
+
       pdf.save("document.pdf");
-      
-      // Clean up
+
+      statusText.textContent = 'Download successful!';
+      setTimeout(() => {
+        document.body.removeChild(progressContainer);
+      }, 1500);
+
       document.body.removeChild(tempElement);
       exportPdf.innerHTML = originalText;
       exportPdf.disabled = false;
-      
+
     } catch (error) {
       console.error("PDF export failed:", error);
       alert("PDF export failed: " + error.message);
       exportPdf.innerHTML = '<i class="bi bi-file-earmark-pdf"></i> Export';
       exportPdf.disabled = false;
+
+      const progressContainer = document.querySelector('div[style*="Preparing PDF"]');
+      if (progressContainer) {
+        document.body.removeChild(progressContainer);
+      }
     }
   });
 
