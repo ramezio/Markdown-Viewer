@@ -2,6 +2,12 @@
 
 This is a desktop app port of [Markdown Viewer](https://github.com/ThisIs-Developer/Markdown-Viewer), see [README](../README.md). It is built using [Neutralinojs](https://github.com/neutralinojs/neutralinojs).
 
+## TODO (preliminary roadmap)
+
+- [ ] Rewrite to inject neutralinojs/build into existing app browser-version files (e.g., `index.html` outside of `/desktop-app`)
+- [ ] Integrate with Docker
+- [ ] Integrate Github Actions for building and releasing the prebuilt binaries
+
 ## Development
 
 ### Requirements
