@@ -21,10 +21,6 @@ jobs:
         with:
           node-version: "lts/*"
 
-      - name: Install dependencies
-        working-directory: desktop-app
-        run: npm install
-
       - name: Build all binaries (embedded + portable)
         working-directory: desktop-app
         run: npm run build:all

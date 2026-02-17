@@ -17,8 +17,8 @@ WORKDIR /app/desktop-app
 # Copy only the desktop-app directory with prepared resources
 COPY --from=prepare /app/desktop-app .
 
-# Install pinned neu CLI from package.json, then build both embedded + portable
-RUN npm install --ignore-scripts && npm run build:all
+# Build both embedded + portable
+RUN npm run build:all
 
 # Final stage: Export the dist artifacts
 FROM alpine:lts

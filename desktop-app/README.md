@@ -20,9 +20,7 @@ Desktop-only files (not generated):
 
 ### Setup
 
-```bash
-npm install
-```
+No installation is required. The app is built and run using `npx` (via npm scripts).
 
 ### Running the app
 
@@ -30,16 +28,7 @@ npm install
 npm run dev
 ```
 
-<details>
-<summary>npx alternative (no install required)</summary>
-
-```bash
-node prepare.js && npx @neutralinojs/neu run
-```
-
-</details>
-
-This automatically runs `prepare.js` (via the `predev` hook) before starting the app. Hot-reload is enabled by default. Enable the browser inspector by setting `"enableInspector": true` in `neutralino.config.json`.
+This automatically runs `prepare.js` before starting the app. Hot-reload is enabled by default. Enable the browser inspector by setting `"enableInspector": true` in `neutralino.config.json`.
 
 For more information, see the [Neutralinojs documentation](https://neutralino.js.org/docs/cli/neu-cli#installation).
 
@@ -51,29 +40,11 @@ For more information, see the [Neutralinojs documentation](https://neutralino.js
 npm run build
 ```
 
-<details>
-<summary>npx alternative</summary>
-
-```bash
-node prepare.js && npx @neutralinojs/neu build --embed-resources
-```
-
-</details>
-
 **Portable** — ZIP bundle with separate `resources.neu` file:
 
 ```bash
 npm run build:portable
 ```
-
-<details>
-<summary>npx alternative</summary>
-
-```bash
-node prepare.js && npx @neutralinojs/neu build --release
-```
-
-</details>
 
 **Both** — Build embedded + portable in one step:
 
@@ -81,15 +52,13 @@ node prepare.js && npx @neutralinojs/neu build --release
 npm run build:all
 ```
 
-> **Note:** All build commands auto-run `prepare.js` via the `prebuild` hook — no need to run it manually.
-
 Build output is placed in `dist/`.
 
 For more information, see the [Neutralinojs documentation](https://neutralino.js.org/docs/cli/neu-cli#neu-build).
 
 ### Building with Docker
 
-Build binaries without installing Node.js or the `neu` CLI locally:
+Build binaries without installing Node.js locally:
 
 ```bash
 docker compose up --build

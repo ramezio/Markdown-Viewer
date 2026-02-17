@@ -6,13 +6,11 @@
   "scripts": {
     "prepare:resources": "node prepare.js",
     "predev": "node prepare.js",
-    "dev": "neu run",
+    "dev": "npx -y @neutralinojs/neu@11.7.0 run",
     "prebuild": "node prepare.js",
-    "build": "neu build --embed-resources",
-    "build:portable": "neu build --release",
+    "build": "npx -y @neutralinojs/neu@11.7.0 build --embed-resources",
+    "build:portable": "npx -y @neutralinojs/neu@11.7.0 build --release",
     "build:all": "npm run build && npm run build:portable"
   },
-  "devDependencies": {
-    "@neutralinojs/neu": "11.7.0"
-  }
+  "dependencies": {}
 }

@@ -83,6 +83,4 @@ console.log(
   "✓ Generated resources/index.html (Neutralinojs injections applied)",
 );
 
-console.log(
-  "\nDone! Run `npx @neutralinojs/neu@11.7.0 run` to start the desktop app.",
-);
+console.log("\nDone! Run `npm run dev` to start the desktop app.");
