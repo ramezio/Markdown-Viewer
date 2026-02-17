@@ -45,13 +45,9 @@
 body {
   background-color: var(--bg-color);
   color: var(--text-color);
-  transition:
-    background-color 0.3s ease,
-    color 0.3s ease;
+  transition: background-color 0.3s ease, color 0.3s ease;
   min-height: 100vh;
-  font-family:
-    -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif,
-    "Apple Color Emoji", "Segoe UI Emoji";
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
 }
 
 .app-header {
@@ -76,8 +72,7 @@ body {
   overflow: hidden;
 }
 
-.editor-pane,
-.preview-pane {
+.editor-pane, .preview-pane {
   flex: 1;
   padding: 20px;
   overflow-y: auto;
@@ -92,9 +87,7 @@ body {
 }
 
 .preview-pane {
-  background-color: var(
-    --preview-bg
-  ); /* Using the new variable for preview background */
+  background-color: var(--preview-bg); /* Using the new variable for preview background */
 }
 
 /* Custom scrollbar */
@@ -131,13 +124,11 @@ body {
   background-color: var(--editor-bg);
   color: var(--text-color);
   resize: none;
-  font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
   font-size: 14px;
   line-height: 1.5;
   padding: 10px;
-  transition:
-    background-color 0.3s ease,
-    color 0.3s ease;
+  transition: background-color 0.3s ease, color 0.3s ease;
   overflow-y: auto;
 }
 
@@ -152,12 +143,8 @@ body {
 .markdown-body {
   padding: 20px;
   width: 100%;
-  background-color: var(
-    --preview-bg
-  ); /* Ensuring the markdown content matches preview background */
-  color: var(
-    --preview-text-color
-  ); /* Using specific text color for preview content */
+  background-color: var(--preview-bg); /* Ensuring the markdown content matches preview background */
+  color: var(--preview-text-color); /* Using specific text color for preview content */
 }
 
 /* Style tables in light mode */
@@ -256,8 +243,7 @@ body {
   color: var(--text-color);
 }
 
-.dropdown-item:hover,
-.dropdown-item:focus {
+.dropdown-item:hover, .dropdown-item:focus {
   background-color: var(--button-hover);
   color: var(--text-color);
 }
@@ -265,24 +251,23 @@ body {
 /* Responsive design for mobile */
 @media (max-width: 1080px) {
   .content-container {
-    flex-direction: column;
+      flex-direction: column;
   }
-
-  .editor-pane,
-  .preview-pane {
-    flex: none;
-    height: 50%;
-    border-right: none;
+  
+  .editor-pane, .preview-pane {
+      flex: none;
+      height: 50%;
+      border-right: none;
   }
-
+  
   .editor-pane {
-    border-bottom: 1px solid var(--border-color);
+      border-bottom: 1px solid var(--border-color);
   }
-
+  
   .toolbar {
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 1rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1rem;
   }
 }
 
@@ -293,7 +278,7 @@ body {
 }
 
 /* Focus outline for accessibility */
-button:focus,
+button:focus, 
 a:focus {
   outline: 2px solid var(--accent-color);
   outline-offset: 2px;
@@ -301,12 +286,8 @@ a:focus {
 
 /* Animation for copied message */
 @keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 /* Tooltip styles */
@@ -361,7 +342,7 @@ a:focus {
   --color-canvas-subtle: #f6f8fa;
   --color-border-default: #e1e4e8;
   --color-border-muted: #eaecef;
-  --color-neutral-muted: rgba(175, 184, 193, 0.2);
+  --color-neutral-muted: rgba(175,184,193,0.2);
   --color-accent-fg: #0366d6;
   --color-accent-emphasis: #0366d6;
   --color-attention-subtle: #fff5b1;
@@ -408,10 +389,10 @@ a:focus {
   --color-canvas-subtle: #161b22;
   --color-border-default: #30363d;
   --color-border-muted: #21262d;
-  --color-neutral-muted: rgba(110, 118, 129, 0.4);
+  --color-neutral-muted: rgba(110,118,129,0.4);
   --color-accent-fg: #58a6ff;
   --color-accent-emphasis: #1f6feb;
-  --color-attention-subtle: rgba(187, 128, 9, 0.15);
+  --color-attention-subtle: rgba(187,128,9,0.15);
   --color-danger-fg: #f85149;
 }
 
@@ -555,9 +536,7 @@ a:focus {
   background-color: rgba(0, 0, 0, 0.5);
   opacity: 0;
   visibility: hidden;
-  transition:
-    opacity 0.3s ease,
-    visibility 0.3s ease;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
   z-index: 1000;
 }
 
@@ -657,9 +636,7 @@ a:focus {
   display: flex;
   align-items: center;
   justify-content: center;
-  transition:
-    transform 0.2s ease,
-    color 0.2s ease;
+  transition: transform 0.2s ease, color 0.2s ease;
   margin-right: 2rem;
 }
 
@@ -812,9 +789,7 @@ a:focus {
   height: 40px;
   background-color: var(--border-color);
   border-radius: 2px;
-  transition:
-    background-color 0.2s ease,
-    width 0.2s ease;
+  transition: background-color 0.2s ease, width 0.2s ease;
 }
 
 .resize-divider:hover .resize-divider-handle,

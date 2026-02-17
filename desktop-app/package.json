@@ -1,0 +1,18 @@
+{
+  "name": "markdown-viewer-desktop",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Neutralinojs desktop port of Markdown Viewer",
+  "scripts": {
+    "prepare:resources": "node prepare.js",
+    "predev": "node prepare.js",
+    "dev": "neu run",
+    "prebuild": "node prepare.js",
+    "build": "neu build --embed-resources",
+    "build:portable": "neu build --release",
+    "build:all": "npm run build && npm run build:portable"
+  },
+  "devDependencies": {
+    "@neutralinojs/neu": "11.7.0"
+  }
+}
