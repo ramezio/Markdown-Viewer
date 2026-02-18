@@ -4,10 +4,11 @@
   "private": true,
   "description": "Neutralinojs desktop port of Markdown Viewer",
   "scripts": {
-    "prepare:resources": "node prepare.js",
-    "predev": "node prepare.js",
+    "setup": "node setup-binaries.js",
+    "postsetup": "node prepare.js",
+    "predev": "npm run setup",
     "dev": "npx -y @neutralinojs/neu@11.7.0 run",
-    "prebuild": "node prepare.js",
+    "prebuild": "npm run setup",
     "build": "npx -y @neutralinojs/neu@11.7.0 build --embed-resources",
     "build:portable": "npx -y @neutralinojs/neu@11.7.0 build --release",
     "build:all": "npm run build && npm run build:portable"

@@ -1,27 +1,22 @@
-# Stage 1: Prepare resources by copying/transforming browser-version files
-FROM node:lts-alpine AS prepare
+# Build Neutralinojs desktop app binaries
+#
+# Context: repo root (see docker-compose.yml)
+# Output: /output/ contains dist/ artifacts
+
+FROM node:lts-alpine AS build
 
 WORKDIR /app
 
 # Copy the entire repo (context is the repo root)
 COPY . .
 
-# Run the prepare script to generate desktop-app resources
-RUN node desktop-app/prepare.js
-
-# Stage 2: Build Neutralinojs binaries
-FROM node:lts-alpine AS build
-
 WORKDIR /app/desktop-app
 
-# Copy only the desktop-app directory with prepared resources
-COPY --from=prepare /app/desktop-app .
-
-# Build both embedded + portable
+# Setup (download binaries + prepare resources) and build all variants
 RUN npm run build:all
 
 # Final stage: Export the dist artifacts
-FROM alpine:lts
+FROM alpine:latest
 
 WORKDIR /output
 

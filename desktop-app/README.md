@@ -6,11 +6,14 @@ This is a desktop app port of [Markdown Viewer](https://github.com/ThisIs-Develo
 
 The desktop app **shares** its core files (`script.js`, `styles.css`, `assets/`) with the browser version in the repo root. A build script (`prepare.js`) copies these files into `resources/` and injects Neutralinojs-specific additions into `index.html` at build time.
 
+Neutralinojs platform binaries are managed by `setup-binaries.js`, which downloads them on first use and caches them in `bin/` (gitignored). The download is version-locked to `cli.binaryVersion` in `neutralino.config.json` and only re-triggered when that version changes.
+
 Desktop-only files (not generated):
 
 - `resources/js/main.js` — Neutralinojs lifecycle, tray menu, window events
 - `resources/js/neutralino.js` — Neutralinojs client library
 - `neutralino.config.json` — App configuration
+- `setup-binaries.js` — Idempotent binary setup (downloads on first use)
 
 ## Development
 
@@ -22,13 +25,21 @@ Desktop-only files (not generated):
 
 No installation is required. The app is built and run using `npx` (via npm scripts).
 
+Neutralinojs platform binaries are downloaded automatically on first build or dev run. To manually trigger the download:
+
+```bash
+npm run setup
+```
+
+Binaries are cached in `bin/` (gitignored) and only re-downloaded when `cli.binaryVersion` in `neutralino.config.json` changes.
+
 ### Running the app
 
 ```bash
 npm run dev
 ```
 
-This automatically runs `prepare.js` before starting the app. Hot-reload is enabled by default. Enable the browser inspector by setting `"enableInspector": true` in `neutralino.config.json`.
+This automatically runs `setup` (downloads binaries if needed and prepares resources) before starting the app. Hot-reload is enabled by default. Enable the browser inspector by setting `"enableInspector": true` in `neutralino.config.json`.
 
 For more information, see the [Neutralinojs documentation](https://neutralino.js.org/docs/cli/neu-cli#installation).
 
