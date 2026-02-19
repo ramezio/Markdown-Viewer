@@ -1,36 +1,3 @@
-// This is just a sample app. You can structure your Neutralinojs app code as you wish.
-// This example app is written with vanilla JavaScript and HTML.
-// Feel free to use any frontend framework you like :)
-// See more details: https://neutralino.js.org/docs/how-to/use-a-frontend-library
-
-/*
-    Function to display information about the Neutralino app.
-    This function updates the content of the 'info' element in the HTML
-    with details regarding the running Neutralino application, including
-    its ID, port, operating system, and version information.
-*/
-function showInfo() {
-  return `
-        ${NL_APPID} is running on port ${NL_PORT} inside ${NL_OS}
-        <br/><br/>
-        <span>server: v${NL_VERSION} . client: v${NL_CVERSION}</span>
-        `;
-}
-
-/*
-    Function to open the official Neutralino documentation in the default web browser.
-*/
-function openDocs() {
-  Neutralino.os.open("https://neutralino.js.org/docs");
-}
-
-/*
-    Function to open a tutorial video on Neutralino's official YouTube channel in the default web browser.
-*/
-function openTutorial() {
-  Neutralino.os.open("https://www.youtube.com/c/CodeZri");
-}
-
 /*
     Function to set up a system tray menu with options specific to the window mode.
     This function checks if the application is running in window mode, and if so,
@@ -68,7 +35,7 @@ function onTrayMenuItemClicked(event) {
       // Display version information
       Neutralino.os.showMessageBox(
         "Version information",
-        `Neutralinojs server: v${NL_VERSION} | Neutralinojs client: v${NL_CVERSION}`,
+        `Neutralinojs server: v${NL_VERSION}\nNeutralinojs client: v${NL_CVERSION}\nOS Name: ${NL_OS}\nArchitecture: ${NL_ARCH}\nApplication ID: ${NL_APPID}\nApplication Version: ${NL_APPVERSION}\nPort: ${NL_PORT}\nMode: ${NL_MODE}\nNeutralinojs server: v${NL_VERSION}\nNeutralinojs client: v${NL_CVERSION}\nCurrent working directory: ${NL_CWD}\nApplication path: ${NL_PATH}\nApplication data path: ${NL_DATAPATH}\nCommand-line arguments: ${NL_ARGS}\nProcess ID: ${NL_PID}\nResource mode: ${NL_RESMODE}\nExtensions enabled: ${NL_EXTENABLED}\nFramework binary's release commit hash: ${NL_COMMIT}\nClient library's release commit hash: ${NL_CCOMMIT}\nCustom method identifiers: ${NL_CMETHODS}\nInitial window state was loaded from the saved configuration: ${NL_WSAVSTLOADED}\nUser System Locale: ${NL_LOCALE}\nData passed during the framework binary compilation via the NEU_COMPILATION_DATA definition in the BuildZri configuration file: ${NL_COMPDATA}`,
       );
       break;
     case "QUIT":
