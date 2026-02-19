@@ -81,6 +81,19 @@ Build artifacts will be output to `desktop-app/output/`.
 
 Prebuilt binaries are automatically built and published as GitHub Releases when a tag matching `desktop-v*` is pushed (e.g., `desktop-v1.0.0`). See [`.github/workflows/desktop-build.yml`](../.github/workflows/desktop-build.yml).
 
+### Versioning
+
+The Git tag is the **single source of truth** for the release version. The CI workflow extracts the version from the tag (e.g., `desktop-v1.2.0` → `1.2.0`) and injects it into `neutralino.config.json` at build time. `package.json` carries a placeholder version (`0.0.0-dev`) since this is not an npm package.
+
+To create a release, run the following commands, replacing `<VERSION_X.Y.Z>` with the desired version (e.g., `1.2.0`):
+
+```bash
+git tag desktop-v<VERSION_X.Y.Z>
+git push origin desktop-v<VERSION_X.Y.Z>
+```
+
+### Release assets
+
 Each release includes:
 
 | Asset | Description |

@@ -1,11 +1,23 @@
 {
   "name": "markdown-viewer-desktop",
-  "version": "1.0.0",
+  "author": "ramezio",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ramezio/markdown-viewer-fork.git"
+  },
+  "contributors": [
+    "ramezio",
+    "JBroeren",
+    "ThisIs-Developer"
+  ],
+  "version": "0.0.0-dev",
   "private": true,
-  "description": "Neutralinojs desktop port of Markdown Viewer",
+  "description": "Neutralinojs desktop port of Markdown Viewer (https://github.com/ThisIs-Developer/markdown-viewer)",
   "scripts": {
     "setup": "node setup-binaries.js",
     "postsetup": "node prepare.js",
+    "clean": "rm -rf bin dist node_modules .tmp .neutralinojs.log",
     "predev": "npm run setup",
     "dev": "npx -y @neutralinojs/neu@11.7.0 run",
     "prebuild": "npm run setup",
